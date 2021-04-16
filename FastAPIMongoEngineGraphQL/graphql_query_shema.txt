@@ -1,0 +1,27 @@
+query allUser {
+    getUsers (first: 3) {
+    		edgeCount
+    		totalCount
+        pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        }
+        edges {
+        cursor
+        node {
+            email
+            lastName
+        }
+        }
+    }
+}
+
+query singleUser {
+	getSingleUser(userId:"6062cddccdc3fae5b585a699") {
+     firstName,
+    lastName,
+    city
+  }
+}
