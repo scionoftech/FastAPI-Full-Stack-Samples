@@ -1,0 +1,9 @@
+python-jose==3.1.0
+python-multipart==0.0.5
+async-exit-stack
+async-generator
+redis
+rq
+joblib
+requests
+uuid

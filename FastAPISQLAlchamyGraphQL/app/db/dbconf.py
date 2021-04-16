@@ -1,0 +1,32 @@
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, scoped_session
+from contextlib import contextmanager
+import sys
+
+sys.path.append("..")
+from conf import DBSettings
+
+engine = create_engine(
+    DBSettings.SQLALCHEMY_DATABASE_URL, pool_size=10,
+    max_overflow=2,
+    pool_recycle=300,
+    pool_pre_ping=True,
+    pool_use_lifo=True
+)
+SessionLocal = scoped_session(
+    sessionmaker(autocommit=False, autoflush=False, bind=engine))
+
+Base = declarative_base()
+Base.query = SessionLocal.query_property()
+
+
+@contextmanager
+def session_scope() -> SessionLocal:
+    """Provide a transactional scope around a series of operations."""
+    db = None
+    try:
+        db = SessionLocal()  # create session from SQLAlchemy sessionmaker
+        yield db
+    finally:
+        db.close()

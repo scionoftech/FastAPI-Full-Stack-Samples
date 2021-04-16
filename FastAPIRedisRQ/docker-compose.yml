@@ -1,0 +1,49 @@
+version: "3.3"
+services:
+  redis:
+    image: redis
+    command: --port 6379
+    ports:
+      - "6379:6379"
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    ports:
+      - "8088:80"
+    volumes:
+      - "/home/user/docker_data/:/var/data"
+    depends_on:
+      - redis
+    links:
+      - redis
+  worker_one:
+    build:
+      context: ./
+    command: rq worker --url redis://redis:6379 test_job
+    depends_on:
+      - redis
+    links:
+      - redis
+  worker_two:
+    build:
+      context: ./
+    command: rq worker --url redis://redis:6379 test_job
+    depends_on:
+      - redis
+    links:
+      - redis
+  rq_monitor:
+    image: pranavgupta1234/rqmonitor
+    ports:
+      - "5432:8899"
+    #    container_name: rq_monitor
+    environment:
+      - RQ_MONITOR_REDIS_URL=redis://core_redis:6379
+    depends_on:
+      - core_redis
+    links:
+      - core_redis

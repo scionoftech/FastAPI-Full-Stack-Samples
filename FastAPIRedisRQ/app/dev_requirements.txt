@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+gunicorn
+python-jose
+python-multipart
+async-exit-stack
+async-generator
+redis
+rq
+uuid

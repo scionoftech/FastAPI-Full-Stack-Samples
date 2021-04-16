@@ -1,0 +1,21 @@
+{
+  "PROJECT_CONF": {
+    "PROJECT_NAME": "FastAPIRedisRQ",
+    "PROJECT_DESCRIPTION": "A Simple Application to demonstrate Redis rq with FastAPI",
+    "API_VERSION": "1.0.0",
+    "API_VERSION_PATH": "/api/v1",
+    "SERVER_NAME": "SampleBackEndPROD",
+    "SERVER_HOST": "https://localhost:8088/api/v1/",
+    "BACKEND_CORS_ORIGINS": [
+      "*"
+    ]
+  },
+  "REDIS_CONF": {
+    "HOST": "localhost",
+    "PORT": 6379,
+    "USER_NAME": "",
+    "PASSWORD": "",
+    "REDIS_DEFAULT_TIMEOUT": 600,
+    "REDIS_JOB_TIMEOUT": 3600
+  }
+}
