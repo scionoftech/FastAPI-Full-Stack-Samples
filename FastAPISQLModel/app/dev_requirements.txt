@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+gunicorn
+pandas==1.0.3
+numpy==1.18.2
+psycopg2==2.8.5
+sqlalchemy==1.4.23
+jwt==1.0.0
+bcrypt==3.1.7
+passlib==1.7.2
+python-jose
+python-multipart
+async-exit-stack
+async-generator
+async-exit-stack
+async-generator
+uuid==1.30

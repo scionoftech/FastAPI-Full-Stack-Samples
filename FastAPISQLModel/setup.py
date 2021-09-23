@@ -1,10 +1,10 @@
 from setuptools import setup
 
 setup(
-    name='FastAPIMongoEngineGraphQL',
+    name='FastAPISQLModel',
     version='0.0.1',
     author='scionoftech',
-    description='FastAPIMongoEngineGraphQL is a simple Python API Application',
+    description='FastAPISQLModel is a simple Python API Application',
     platforms='any',
     install_requires=[
         'fastapi',
@@ -12,7 +12,8 @@ setup(
         'gunicorn',
         'pandas',
         'numpy',
-        'mongoengine',
+        'psycopg2',
+        'sqlalchemy',
         'passlib'
         'python-jose',
         'python-multipart',

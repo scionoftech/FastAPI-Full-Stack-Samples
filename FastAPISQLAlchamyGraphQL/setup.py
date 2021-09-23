@@ -1,10 +1,10 @@
 from setuptools import setup
 
 setup(
-    name='FastAPISQLAlchemy',
+    name='FastAPISQLAlchemyGraphQL',
     version='0.0.1',
     author='scionoftech',
-    description='FastAPISQLAlchemy is a simple Python API Application',
+    description='FastAPISQLAlchemyGraphQL is a simple Python API Application',
     platforms='any',
     install_requires=[
         'fastapi',

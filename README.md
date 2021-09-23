@@ -18,6 +18,7 @@ The API Application Development using Python FastAPI, including interactive API 
 * **JWT token** authentication.
 * **CORS** (Cross Origin Resource Sharing).
 * **SQLAlchemy** models (independent of Flask extensions, so they can be used with Celery/redis-rq workers directly).
+* **SQLModel** models using SqlModel.
 * **MongoEngine** MongoDB Document-Object Mapper
 * **GraphQL** A query language for your API
 * **SocketIO** Socket.IO enables real-time, bidirectional and event-based communication.
