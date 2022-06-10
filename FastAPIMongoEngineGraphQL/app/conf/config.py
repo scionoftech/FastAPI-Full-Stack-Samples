@@ -29,7 +29,7 @@ class DBSettings:
     MONGODB_DATABASE_URL = f"{__DATA['DATABASE']}://{__DATA['MONGODB_USER']}" \
                               f":{__DATA['MONGODB_PASSWORD']}@" \
                               f"{__DATA['MONGODB_HOST']}:{__DATA['MONGODB_PORT']}/" \
-                              f"{__DATA['MONGODB_DB_NAME']}?authSource={__DATA['MONGODB_DB_NAME']}"
+                              f"{__DATA['MONGODB_DB_NAME']}?authSource={__DATA['AUTH_MONGODB_DB_NAME']}"
 
 
 class ProjectSettings:

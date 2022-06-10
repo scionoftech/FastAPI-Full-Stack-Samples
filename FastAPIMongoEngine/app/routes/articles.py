@@ -19,21 +19,25 @@ def create_article(article: schemas.ArticleCreate,
     data = crud_articles.create_article(article=article)
     if data is None:
         return JSONResponse(status_code=500,
-                            content={"message": "Internal Server Error"})
+                            content={
+                                "message": "Internal Server Error"})
     return JSONResponse(status_code=200,
                         content={"message": "success"})
 
 
-@router.put("/{article_id}", responses=response_schemas.general_responses)
+@router.put("/{article_id}",
+            responses=response_schemas.general_responses)
 def update_article(article_id: str, article: schemas.ArticleUpdate,
                    current_user: schemas.UserVerify = Depends(
                        deps.get_current_user)) -> JSONResponse:
     """ update a article"""
 
-    data = crud_articles.update_article(article_id=article_id, article=article)
+    data = crud_articles.update_article(article_id=article_id,
+                                        article=article)
     if data is None:
         return JSONResponse(status_code=500,
-                            content={"message": "Internal Server Error"})
+                            content={
+                                "message": "Internal Server Error"})
     return JSONResponse(status_code=200,
                         content={"message": "success"})
 
@@ -47,13 +51,16 @@ def delete_artcle(article_id: str,
     data = crud_articles.delete_article(article_id=article_id)
     if data is None:
         return JSONResponse(status_code=500,
-                            content={"message": "Internal Server Error"})
+                            content={
+                                "message": "Internal Server Error"})
     return JSONResponse(status_code=200,
                         content={"message": "success"})
 
 
 @router.get("/", responses=response_schemas.all_users_responses)
-def get_articles(article_id: str = None, tag: str = None, page_num: int = 1,
+def get_articles(article_id: str = None, article_title: str = None,
+                 tag: str = None, page_num: int = 1,
+                 page_size: int = 30,
                  current_user: schemas.UserVerify = Depends(
                      deps.get_current_user)) -> JSONResponse:
     """ Return All Articles"""
@@ -61,18 +68,25 @@ def get_articles(article_id: str = None, tag: str = None, page_num: int = 1,
         data = crud_articles.get_article(article_id=article_id)
         if data is None:
             return JSONResponse(status_code=500,
-                                content={"message": "No Records Found"})
+                                content={
+                                    "message": "No Records Found"})
         json_compatible_item_data = jsonable_encoder(data)
-        return JSONResponse(status_code=200, content=json_compatible_item_data)
+        return JSONResponse(status_code=200,
+                            content=json_compatible_item_data)
     else:
-        data = crud_articles.get_all_articles(tag=tag, page_num=page_num)
+        data = crud_articles.get_all_articles(tag=tag,
+                                              article_title=article_title,
+                                              page_num=page_num,
+                                              page_size=page_size)
         if data is None:
             return JSONResponse(status_code=500,
-                                content={"message": "No Articles Found"})
+                                content={
+                                    "message": "No Articles Found"})
         return JSONResponse(status_code=200,
                             content={"total_pages": data.pages,
                                      "total_items": data.total_items,
-                                     "page_data": {"page_num": page_num,
-                                                   "item_count": data.page_size,
-                                                   "items": get_json(
-                                                       data.items)}})
+                                     "page_data": {
+                                         "page_num": page_num,
+                                         "item_count": data.page_size,
+                                         "items": get_json(
+                                             data.items)}})

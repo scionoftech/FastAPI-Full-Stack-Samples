@@ -58,17 +58,22 @@ class CRUDArticles:
             fastapi_logger.exception("get_article")
             return None
 
-    def get_all_articles(self, tag: str, page_num: int) -> Any:
+    def get_all_articles(self, tag: str = None,
+                         article_title: str = None,
+                         page_num: int = 1, page_size=30) -> Any:
         """ Get All Articles """
         try:
-            query = Article.objects.order_by('-modified_timestamp')
+            query = Article.objects
 
             if tag:
-                query = Article.objects(tags=tag).order_by(
-                    '-modified_timestamp')
+                query = query.filter(tags=tag)
 
-            data = pagination.paginate(query=query, page=page_num,
-                                       page_size=30)
+            if article_title:
+                query = query.filter(article_title=article_title)
+
+            data = pagination.paginate(query=query.order_by(
+                'modified_timestamp'), page=page_num,
+                page_size=page_size)
             return data
         except Exception as e:
             fastapi_logger.exception("get_all_articles")

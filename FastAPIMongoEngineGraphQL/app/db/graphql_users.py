@@ -1,5 +1,6 @@
 import graphene
-from graphene_mongo import MongoengineObjectType, MongoengineConnectionField
+from graphene_mongo import MongoengineObjectType, \
+    MongoengineConnectionField
 from graphql import GraphQLError
 from graphene import relay
 import sys
@@ -84,7 +85,8 @@ class Query(graphene.ObjectType):
     GraphQL Query
     """
     get_single_user = graphene.Field(User,
-                                     user_id=graphene.NonNull(graphene.String))
+                                     user_id=graphene.NonNull(
+                                         graphene.String))
     get_users = MongoengineConnectionField(User)
 
     get_single_article = graphene.Field(Articles,
@@ -112,7 +114,9 @@ class Query(graphene.ObjectType):
         """
         Get All articles with pagination and filters
         """
-        db_article = crud_articles.get_all_articles(tag=kwargs.get("tag"))
+        db_article = crud_articles.get_all_articles(
+            tag=kwargs.get("tag"),
+            article_title=kwargs.get("article_title"))
         if db_article is None:
             raise GraphQLError("No Users Found")
         return db_article

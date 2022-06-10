@@ -1,5 +1,3 @@
-from sqlalchemy.orm import Session
-from sqlalchemy.exc import SQLAlchemyError
 from typing import Any
 
 import sys
@@ -26,7 +24,7 @@ class CRUDLogin:
             db_session = dbconf_models.UsersLoginAttempt.objects(
                 session_id=session_id).first()
             return db_session
-        except SQLAlchemyError as e:
+        except Exception as e:
             fastapi_logger.exception("logoff_user")
             return None
 
@@ -41,7 +39,7 @@ class CRUDLogin:
                 status="logged_in")
             db_session.save()
             return db_session
-        except SQLAlchemyError as e:
+        except Exception as e:
             fastapi_logger.exception("login_user")
             return None
 
@@ -53,7 +51,7 @@ class CRUDLogin:
             db_session.status = "active"
             db_session.save()
             return db_session
-        except SQLAlchemyError as e:
+        except Exception as e:
             fastapi_logger.exception("active_user")
             return None
 
@@ -66,7 +64,7 @@ class CRUDLogin:
             db_session.status = "logged_off"
             db_session.save()
             return db_session
-        except SQLAlchemyError as e:
+        except Exception as e:
             fastapi_logger.exception("logoff_user")
             return None
 

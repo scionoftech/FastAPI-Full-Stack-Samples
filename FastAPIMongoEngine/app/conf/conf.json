@@ -21,10 +21,11 @@
   },
   "DATABASE_CONF": {
     "DATABASE": "mongodb",
-    "MONGODB_HOST": "localhost",
+    "MONGODB_HOST": "mongodb_instance",
     "MONGODB_PORT": "27017",
-    "MONGODB_USER": "",
-    "MONGODB_PASSWORD": "",
-    "MONGODB_DB_NAME": "testdb"
+    "MONGODB_USER": "root",
+    "MONGODB_PASSWORD": "mongo$321",
+    "MONGODB_DB_NAME": "testdb",
+    "AUTH_MONGODB_DB_NAME": "admin"
   }
 }

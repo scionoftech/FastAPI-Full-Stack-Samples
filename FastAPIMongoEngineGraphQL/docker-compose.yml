@@ -1,10 +1,47 @@
 version: "3.3"
 services:
+  mongodb_instance:
+    image: mongo:4.4
+    restart: always
+    ports:
+      - "27017"
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGODB_DB_NAME}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+    #    volumes:
+    #      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    #      - /home/mongo_data:/data/db
+  mongo-express:
+      image: mongo-express
+      restart: always
+      ports:
+        - 8081:8081
+      links:
+        - mongodb_instance
+      depends_on:
+        - mongodb_instance
+      environment:
+        ME_CONFIG_MONGODB_SERVER: mongodb_instance
+        ME_CONFIG_MONGODB_PORT: 27017
+        ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_ROOT_USER}
+        ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_ROOT_PASSWORD}
+        ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+        ME_CONFIG_MONGODB_AUTH_DATABASE: ${AUTH_MONGODB_DB_NAME}
+        ME_CONFIG_MONGODB_AUTH_USERNAME: ${MONGO_ROOT_USER}
+        ME_CONFIG_MONGODB_AUTH_PASSWORD: ${MONGO_ROOT_PASSWORD}
+        ME_CONFIG_BASICAUTH_USERNAME: ${MONGOEXPRESS_LOGIN}
+        ME_CONFIG_BASICAUTH_PASSWORD: ${MONGOEXPRESS_PASSWORD}
+  #      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongodb_instance:27017/
   app:
     build:
       context: ./
       dockerfile: Dockerfile
     ports:
       - "8088:80"
+    links:
+      - mongodb_instance
+    depends_on:
+      - mongodb_instance
     volumes:
       - "/home/user/docker_data/:/var/data"

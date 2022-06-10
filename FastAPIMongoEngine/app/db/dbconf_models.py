@@ -7,8 +7,22 @@ import sys
 sys.path.append("..")
 from conf import DBSettings
 
+clientOptions = {
+    # This is the maximum time between when we fetch data from a cursor.
+    # If it times out, the cursor is lost and we can't reconnect.  If it
+    # isn't set, we have issues with replica sets when the primary goes
+    # down.  This value can be overridden in the mongodb uri connection
+    # string with the socketTimeoutMS.
+    'socketTimeoutMS': 60000,
+    'connectTimeoutMS': 20000,
+    'serverSelectionTimeoutMS': 20000,
+    'readPreference': 'secondaryPreferred',
+    'replicaSet': None,
+    'w': 'majority'
+}
+print(DBSettings.MONGO_DATABASE_URL)
 session = connect(
-    host=DBSettings.MONGO_DATABASE_URL)
+    host=DBSettings.MONGO_DATABASE_URL, **clientOptions)
 
 
 class User(gj.Document):

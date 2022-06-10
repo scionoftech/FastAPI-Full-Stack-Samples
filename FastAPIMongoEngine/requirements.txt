@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+gunicorn
+mongoengine==0.20.0
+mongoengine_goodjson
+jwt
+bcrypt==3.1.7
+passlib==1.7.2
+python-multipart
+async-exit-stack
+async-generator
+async-exit-stack
+uuid==1.30
+python-dotenv
+python-dateutil
