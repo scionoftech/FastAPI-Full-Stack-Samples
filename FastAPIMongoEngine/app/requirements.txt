@@ -1,5 +1,5 @@
 pandas==1.0.3
-numpy==1.18.2
+numpy==1.21.0
 mongoengine==0.20.0
 mongoengine_goodjson
 jwt==1.0.0
