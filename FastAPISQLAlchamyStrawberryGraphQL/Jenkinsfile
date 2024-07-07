@@ -1,0 +1,21 @@
+pipeline {
+	agent any
+	    stages {
+	        stage('Clone Repository') {
+	        /* Cloning the repository to our workspace */
+	        steps {
+	        checkout scm
+	        }
+	   }
+	   stage('Build Image') {
+	        steps {
+	        sh 'sudo docker-compose build'
+	        }
+	   }
+	   stage('Run Container') {
+	        steps {
+	        sh 'sudo docker-compose up -d'
+	        }
+	   }
+    }
+}

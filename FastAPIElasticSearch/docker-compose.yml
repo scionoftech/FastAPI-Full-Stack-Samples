@@ -1,0 +1,78 @@
+version: "3.3"
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.1
+    # container_name: elasticsearch
+    environment:
+      - node.name=elasticsearch
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=true
+      - ELASTIC_PASSWORD=${ELASTICSEARCH_PWD}
+      - xpack.security.transport.ssl.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - "/home/ubuntu/docker_data/es_data:/usr/share/elasticsearch/data"
+      - "/home/ubuntu/docker_data/es_logs:/usr/share/elasticsearch/logs"
+    ports:
+      - "9200:9200"
+    networks:
+      - elastic
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.14.1
+    # container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=${KIBANA_USER_NAME}
+      - ELASTICSEARCH_PASSWORD=${KIBANA_PWD}
+    ports:
+      - "5601:5601"
+    networks:
+      - elastic
+    depends_on:
+      - elasticsearch
+  app:
+    # container_name: api
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8088:80"
+    environment:
+      - PROJECT_NAME=${PROJECT_NAME}
+      - PROJECT_DESCRIPTION=${PROJECT_DESCRIPTION}
+      - API_VERSION=${API_VERSION}
+      - API_VERSION_PATH=${API_VERSION_PATH}
+      - SERVER_NAME=${SERVER_NAME}
+      - SERVER_HOST=${SERVER_HOST}
+      - BACKEND_CORS_ORIGINS=${BACKEND_CORS_ORIGINS}
+      - ACCESS_TOKEN_EXPIRE_MINUTES=${ACCESS_TOKEN_EXPIRE_MINUTES}
+      - SESSION_TOKEN_EXPIRE_SECONDS=${SESSION_TOKEN_EXPIRE_SECONDS}
+      - EMAIL_RESET_TOKEN_EXPIRE_HOURS=${EMAIL_RESET_TOKEN_EXPIRE_HOURS}
+      - EMAIL_ID=${EMAIL_ID}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - SMTP_SERVER=${SMTP_SERVER}
+      - SMTP_PORT=${SMTP_PORT}
+      - ELASTICSEARCH_URL=${ELASTICSEARCH_URL}
+      - ELASTICSEARCH_API_KEY=${ELASTICSEARCH_API_KEY}
+      - ELASTICSEARCH_USER_NAME=${ELASTICSEARCH_USER_NAME}
+      - ELASTICSEARCH_PWD=${ELASTICSEARCH_PWD}
+      - KIBANA_USER_NAME=${KIBANA_USER_NAME}
+      - KIBANA_PWD=${KIBANA_PWD}
+      - APP_API_KEY=${APP_API_KEY}
+    volumes:
+      - "/home/ubuntu/docker_data/docker_api_data:/var/data"
+    networks:
+      - elastic
+    depends_on:
+      - elasticsearch
+volumes:
+  esdata:
+    driver: local
+
+networks:
+  elastic:
+    driver: bridge

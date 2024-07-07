@@ -1,0 +1,8 @@
+asgi_lifespan
+black
+click
+pylint
+pytest
+pytest-asyncio
+pytest-cov
+pytest-mock
