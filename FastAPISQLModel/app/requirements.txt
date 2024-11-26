@@ -1,5 +1,5 @@
 pandas==1.0.3
-numpy==1.18.2
+numpy==1.22.0
 psycopg2==2.8.5
 sqlalchemy==1.4.23
 jwt==1.0.0
