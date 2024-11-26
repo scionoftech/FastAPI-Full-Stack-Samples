@@ -1,5 +1,5 @@
 python-jose==3.1.0
-python-multipart==0.0.5
+python-multipart==0.0.7
 async-exit-stack
 async-generator
 redis
